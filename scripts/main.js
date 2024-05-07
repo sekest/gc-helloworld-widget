@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     var ClientApp = window.purecloud.apps.ClientApp;
     var myClientApp = new ClientApp({
@@ -7,5 +6,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     myClientApp.alerting.showToastPopup('Hello', 'Genesys Cloud');
-    console.log(myClientApp.gcEnvironment)
+
+    // Log the environment to the console
+    console.log(myClientApp.gcEnvironment);
+
+    // Display the environment in the web page
+    var dataContainer = document.getElementById('data-container');
+    dataContainer.textContent = 'Current Environment: ' + myClientApp.gcEnvironment;
 });
