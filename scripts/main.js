@@ -7,4 +7,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     myClientApp.alerting.showToastPopup('Hello', 'Genesys Cloud');
+    console.log(myClientApp.gcEnvironment)
 });
