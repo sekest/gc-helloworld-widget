@@ -1,37 +1,50 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var ClientApp = window.purecloud.apps.ClientApp;
-    var myClientApp = new ClientApp({
-        gcHostOriginQueryParam: 'gcHostOrigin',
-        gcTargetEnvQueryParam: 'gcTargetEnv'
-    });
+import platformClient from 'platformClient';
 
-    myClientApp.alerting.showToastPopup('Hello', 'Genesys Cloud');
+// Instantiate API client
+const client = platformClient.ApiClient.instance;
 
-    // Function to get parameter value from URL
-    function getParamValue(paramPairs){
-        return decodeURIComponent(paramPairs[1] || '');
-    }
+// OAuth configuration
+const redirectUri = window.location.href;
+const clientId = 'c99fdefd-4083-46c7-8f1e-de3147acd866';  // Replace with your actual client ID
 
-    var queryString = window.location.search.substring(1);
-    var pairs = queryString.split('&');
-    var conversationId = null;
-    var gcHostOrigin = null;
-    var gcTargetEnv = null;
-
-    for (let i = 0; i < pairs.length; i++) {
-        let currParam = pairs[i].split('=');
-       
-        if(['conversationId', 'gcConversationId'].indexOf(currParam[0]) !== -1) {
-            conversationId = getParamValue(currParam);
-        } else if (currParam[0] === 'gcHostOrigin') {
-            gcHostOrigin = getParamValue(currParam);
-        } else if (currParam[0] === 'gcTargetEnv') {
-            gcTargetEnv = getParamValue(currParam);
-        }
-    }
-
-    // Display the environment and conversation ID in the web page
-    var dataContainer = document.getElementById('data-container');
-    dataContainer.innerHTML = '<strong>Current Environment:</strong> ' + myClientApp.gcEnvironment +
-                              '<br><strong>Conversation ID:</strong> ' + (conversationId || 'N/A');
+// Initialize ClientApp
+var ClientApp = window.purecloud.apps.ClientApp;
+var myClientApp = new ClientApp({
+    gcHostOriginQueryParam: 'gcHostOrigin',
+    gcTargetEnvQueryParam: 'gcTargetEnv'
 });
+
+// User API instance
+const usersApi = new platformClient.UsersApi();
+
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+function displayUserInfo() {
+    // Display Conversation ID from URL
+    const conversationId = getQueryParam('gcConversationId');
+    document.getElementById('conversationId').textContent = conversationId || 'No Conversation ID';
+
+    client.loginImplicitGrant(clientId, redirectUri)
+        .then(() => {
+            // Successfully authenticated, now fetch user data
+            return usersApi.getUsersMe();
+        })
+        .then((userData) => {
+            // Display the user ID in the HTML element
+            document.getElementById('userId').textContent = userData.id;
+            // Show a toast popup with the user ID
+            myClientApp.alerting.showToastPopup('Hello', `User ID: ${userData.id}`);
+        })
+        .catch((error) => {
+            // Handle errors and possibly display an error message
+            console.error('Error fetching user data:', error);
+            document.getElementById('userId').textContent = 'Failed to load user ID';
+            myClientApp.alerting.showToastPopup('Error', 'Failed to load user ID');
+        });
+}
+
+// Call the function to execute on script load
+displayUserInfo();
