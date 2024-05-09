@@ -4,7 +4,8 @@ const client = platformClient.ApiClient.instance;
 client.setEnvironment(platformClient.PureCloudRegionHosts.us_west_2);
 
 // OAuth configuration
-const redirectUri = window.location.href;
+// const redirectUri = window.location.href;
+const redirectUri = 'https://sekest.github.io/gc-helloworld-widget/';
 const clientId = 'c99fdefd-4083-46c7-8f1e-de3147acd866';  // Replace with your actual client ID
 
 // Initialize ClientApp
