@@ -93,7 +93,7 @@
 
       if(searchParams.has(qParamConversationId)){
         conversationId = searchParams.get(qParamConversationId);
-        localStorage.setItem(`${appName}_conversationId`, environment);
+        localStorage.setItem(`${appName}_conversationId`, conversationId);
       } else {
         let local_convo = localStorage.getItem(`${appName}_conversationId`);
         if(local_convo) conversationId = local_convo;
