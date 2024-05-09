@@ -26,8 +26,6 @@ function authenticate(client, pcEnvironment, state) {
 
     return client.loginImplicitGrant(clientId, redirectUrl, { state })
         .then(data => {
-            console.log("acme1",pathname)
-            console.log("acme2",data.state)
             window.history.replaceState(null, '', `${pathname}?${data.state}`);
         });
 }
