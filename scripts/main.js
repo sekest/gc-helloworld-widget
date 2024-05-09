@@ -1,6 +1,5 @@
-import platformClient from 'platformClient';
-
 // Instantiate API client
+const platformClient = require('platformClient');
 const client = platformClient.ApiClient.instance;
 
 // OAuth configuration
