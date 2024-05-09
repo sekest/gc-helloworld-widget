@@ -24,6 +24,9 @@ function authenticate(client, pcEnvironment, state) {
     const { origin, protocol, host, pathname } = window.location;
     const redirectUrl = (origin || `${protocol}//${host}`) + pathname;
 
+    console.log("acme1",redirectUrl)
+    console.log("acme2",state)
+
     return client.loginImplicitGrant(clientId, redirectUrl, { state })
         .then(data => {
             window.history.replaceState(null, '', `${pathname}?${data.state}`);
