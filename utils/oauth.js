@@ -7,7 +7,7 @@ function authenticate(client, pcEnvironment, state) {
     * in your Genesys Cloud org.  After creating the Implicit grant client, map the client id(s) to
     * the specified region key(s) in the object below, deploy the page, and configure an app to point to that URL.
     */
-    const pcOAuthClientIds = {'mypurecloud.com': 'implicit-oauth-client-id-here'};
+    const pcOAuthClientIds = {'usw2.pure.cloud': 'c99fdefd-4083-46c7-8f1e-de3147acd866'};
     const clientId = pcOAuthClientIds[platformEnvironment];
     if (!clientId) {
         const defaultErr = platformEnvironment + ': Unknown/Unsupported Genesys Cloud Environment';
